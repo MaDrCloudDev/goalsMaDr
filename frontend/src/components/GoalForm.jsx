@@ -1,36 +1,67 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { createGoal } from '../features/goals/goalSlice';
+import axios from 'axios';
 
-function GoalForm() {
+function GoalForm({ onGoalAdded }) {
 	const [text, setText] = useState('');
-	const dispatch = useDispatch();
-	const onSubmit = (e) => {
+	const [error, setError] = useState('');
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		dispatch(createGoal({ text }));
-		setText('');
+		if (!text.trim()) {
+			setError('Please enter a goal');
+			return;
+		}
+		try {
+			const token = localStorage.getItem('token');
+			const response = await axios.post(
+				'/api/goals',
+				{ text },
+				{ headers: { Authorization: `Bearer ${token}` } }
+			);
+			onGoalAdded(response.data);
+			setText('');
+			setError('');
+		} catch (err) {
+			setError(err.response?.data?.error || 'Failed to create goal');
+		}
 	};
+
 	return (
-		<section className='form'>
-			<form onSubmit={onSubmit}>
-				<div className='form-group'>
-					<label htmlFor='text'>What's your goal?</label>
+		<section className='mb-6'>
+			<form
+				onSubmit={handleSubmit}
+				className='flex flex-col gap-4'>
+				<div>
+					<label
+						htmlFor='goal-text'
+						className='block text-sm font-medium mb-1'>
+						What's your goal?
+					</label>
 					<input
-						text='text'
-						name='text'
-						id='text'
+						type='text'
+						id='goal-text'
 						value={text}
-						onChange={(e) => setText(e.target.value)}></input>
+						onChange={(e) => setText(e.target.value)}
+						placeholder='Enter your goal'
+						className='w-full'
+						aria-describedby={error ? 'goal-error' : undefined}
+					/>
+					{error && (
+						<p
+							id='goal-error'
+							className='error-text mt-1'>
+							{error}
+						</p>
+					)}
 				</div>
-				<div className='form-group'>
-					<button
-						className='btn btn-block'
-						type='submit'>
-						Add goal
-					</button>
-				</div>
+				<button
+					type='submit'
+					className='btn-blue'>
+					Add Goal
+				</button>
 			</form>
 		</section>
 	);
 }
+
 export default GoalForm;

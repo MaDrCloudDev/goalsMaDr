@@ -1,0 +1,59 @@
+@import 'tailwindcss';
+
+@tailwind utilities;
+
+@reference 'tailwindcss/utilities';
+
+@layer base {
+	body {
+		@apply bg-gray-900 text-gray-100 min-h-screen;
+	}
+
+	.container {
+		@apply max-w-4xl mx-auto px-4;
+	}
+
+	h1 {
+		@apply text-3xl font-bold text-blue-400 mb-6;
+	}
+
+	input {
+		@apply w-full p-3 rounded-lg border border-gray-700 bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition;
+	}
+
+	button {
+		@apply px-4 py-2 rounded-lg font-semibold transition;
+	}
+
+	.btn-blue {
+		@apply bg-blue-500 text-white hover:bg-blue-600;
+	}
+
+	.btn-red {
+		@apply bg-red-500 text-white hover:bg-red-600;
+	}
+
+	.link-blue {
+		@apply text-blue-500 hover:underline;
+	}
+
+	ul {
+		@apply space-y-2;
+	}
+
+	li {
+		@apply flex justify-between items-center p-3 bg-gray-800 rounded-lg;
+	}
+
+	.error-text {
+		@apply text-red-500 font-medium;
+	}
+
+	.loadingSpinnerContainer {
+		@apply flex items-center justify-center min-h-screen;
+	}
+
+	.loadingSpinner {
+		@apply w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin;
+	}
+}

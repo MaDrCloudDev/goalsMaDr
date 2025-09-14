@@ -1,69 +1,81 @@
-const asyncHandler = require('express-async-handler');
-const Goal = require('../models/goalModel');
-const User = require('../models/userModel');
+import { Goal } from '../models/goalModel.js';
+import { User } from '../models/userModel.js';
 
 // GET get goals /api/goals private
-const getGoals = asyncHandler(async (req, res) => {
-	const goals = await Goal.find({ user: req.user.id });
-	res.status(200).json(goals);
-});
-// POST set goals /api/goals private
-const setGoal = asyncHandler(async (req, res) => {
-	if (!req.body.text) {
-		res.status(400);
-		throw new Error('add text');
+const getGoals = async (c) => {
+	try {
+		const user = c.get('user'); // Assuming user is set by protect middleware
+		const goals = await Goal.find({ user: user.id });
+		return c.json(goals, 200);
+	} catch (error) {
+		return c.json({ error: error.message }, 500);
 	}
-	const goal = await Goal.create({
-		text: req.body.text,
-		user: req.user.id,
-	});
-	res.status(200).json(goal);
-});
-// PUT update goals /api/goals/:id private
-const updateGoal = asyncHandler(async (req, res) => {
-	const goal = await Goal.findById(req.params.id);
-	if (!goal) {
-		res.status(400);
-		throw new Error('goal not found');
-	}
-	// check for user
-	if (!req.user) {
-		res.status(401);
-		throw new Error('user not found');
-	}
-	// ensure logged in user matches goal user
-	if (goal.user.toString() !== req.user.id) {
-		res.status(401);
-		throw new Error('user not authorized');
-	}
-	const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
-		new: true,
-	});
-	res.status(200).json(updatedGoal);
-});
-// DELETE delete goals /api/goals/:id private
-const deleteGoal = asyncHandler(async (req, res) => {
-	const goal = await Goal.findById(req.params.id);
-	if (!goal) {
-		res.status(400);
-		throw new Error('goal not found');
-	}
-	if (!req.user) {
-		res.status(401);
-		throw new Error('user not found');
-	}
-	// ensure logged in user matches goal user
-	if (goal.user.toString() !== req.user.id) {
-		res.status(401);
-		throw new Error('user not authorized');
-	}
-	await goal.remove();
-	res.status(200).json({ id: req.params.id });
-});
-// export
-module.exports = {
-	getGoals,
-	setGoal,
-	updateGoal,
-	deleteGoal,
 };
+
+// POST set goals /api/goals private
+const setGoal = async (c) => {
+	try {
+		const user = c.get('user');
+		const { text } = await c.req.json();
+		if (!text) {
+			return c.json({ error: 'add text' }, 400);
+		}
+		const goal = await Goal.create({
+			text,
+			user: user.id,
+		});
+		return c.json(goal, 200);
+	} catch (error) {
+		return c.json({ error: error.message }, 500);
+	}
+};
+
+// PUT update goals /api/goals/:id private
+const updateGoal = async (c) => {
+	try {
+		const user = c.get('user');
+		const goal = await Goal.findById(c.req.param('id'));
+		if (!goal) {
+			return c.json({ error: 'goal not found' }, 400);
+		}
+		if (!user) {
+			return c.json({ error: 'user not found' }, 401);
+		}
+		if (goal.user.toString() !== user.id) {
+			return c.json({ error: 'user not authorized' }, 401);
+		}
+		const updatedGoal = await Goal.findByIdAndUpdate(
+			c.req.param('id'),
+			await c.req.json(),
+			{
+				new: true,
+			}
+		);
+		return c.json(updatedGoal, 200);
+	} catch (error) {
+		return c.json({ error: error.message }, 500);
+	}
+};
+
+// DELETE delete goals /api/goals/:id private
+const deleteGoal = async (c) => {
+	try {
+		const user = c.get('user');
+		const goal = await Goal.findById(c.req.param('id'));
+		if (!goal) {
+			return c.json({ error: 'goal not found' }, 400);
+		}
+		if (!user) {
+			return c.json({ error: 'user not found' }, 401);
+		}
+		if (goal.user.toString() !== user.id) {
+			return c.json({ error: 'user not authorized' }, 401);
+		}
+		await goal.deleteOne();
+		return c.json({ id: c.req.param('id') }, 200);
+	} catch (error) {
+		return c.json({ error: error.message }, 500);
+	}
+};
+
+export { getGoals, setGoal, updateGoal, deleteGoal };

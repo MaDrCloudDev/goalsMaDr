@@ -1,13 +1,15 @@
-const express = require('express');
-const router = express.Router();
-const {
+import { Hono } from 'hono';
+import {
 	registerUser,
 	loginUser,
 	getMe,
-} = require('../controllers/userController');
-const { protect } = require('../middleware/authMiddleware');
+} from '../controllers/userController.js';
+import { protect } from '../middleware/authMiddleware.js';
+
+const router = new Hono();
 
 router.post('/', registerUser);
 router.post('/login', loginUser);
 router.get('/me', protect, getMe);
-module.exports = router;
+
+export default router;

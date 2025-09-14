@@ -1,55 +1,61 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import GoalForm from '../components/GoalForm';
-import GoalItem from '../components/GoalItem';
-import Spinner from '../components/Spinner';
-import { getGoals, reset } from '../features/goals/goalSlice';
+import axios from 'axios';
+import GoalForm from '../components/GoalForm.jsx';
+import GoalItem from '../components/GoalItem.jsx';
+import Header from '../components/Header.jsx';
 
 function Dashboard() {
+	const [goals, setGoals] = useState([]);
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
-	const { user } = useSelector((state) => state.auth);
-	const { goals, isLoading, isError, message } = useSelector(
-		(state) => state.goals,
-	);
+
 	useEffect(() => {
-		if (isError) {
-			console.log(message);
-		}
-		if (!user) {
-			navigate('/login');
-		}
-		dispatch(getGoals());
-		// return () => {
-		// 	dispatch(reset());
-		// };
-	}, [user, navigate, isError, message, dispatch]);
-	if (isLoading) {
-		return <Spinner />;
-	}
+		const fetchGoals = async () => {
+			try {
+				const token = localStorage.getItem('token');
+				const response = await axios.get('/api/goals', {
+					headers: { Authorization: `Bearer ${token}` },
+				});
+				setGoals(response.data);
+			} catch (error) {
+				if (error.response?.status === 401) {
+					localStorage.removeItem('token');
+					navigate('/login');
+				}
+				console.error(
+					error.response?.data?.error || 'Error fetching goals'
+				);
+			}
+		};
+		fetchGoals();
+	}, [navigate]);
+
+	const handleGoalAdded = (newGoal) => {
+		setGoals([...goals, newGoal]);
+	};
+
+	const handleGoalDeleted = (id) => {
+		setGoals(goals.filter((goal) => goal._id !== id));
+	};
+
 	return (
-		<>
-			<section className='heading'>
-				<h1>Hello {user && user.name}</h1>
-				<p>Goals Dashboard</p>
-			</section>
-			<GoalForm />
-			<section className='content'>
-				{goals.length > 0 ? (
-					<div className='goals'>
-						{goals.map((goal) => (
-							<GoalItem
-								key={goal._id}
-								goal={goal}
-							/>
-						))}
-					</div>
-				) : (
-					<h3>No goals set</h3>
-				)}
-			</section>
-		</>
+		<div>
+			<Header />
+			<div className='container'>
+				<h1>Dashboard</h1>
+				<GoalForm onGoalAdded={handleGoalAdded} />
+				<ul>
+					{goals.map((goal) => (
+						<GoalItem
+							key={goal._id}
+							goal={goal}
+							onGoalDeleted={handleGoalDeleted}
+						/>
+					))}
+				</ul>
+			</div>
+		</div>
 	);
 }
+
 export default Dashboard;
