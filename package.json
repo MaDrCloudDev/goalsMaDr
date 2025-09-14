@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "build": "cd frontend && bun install && bun run build && cd ..",
     "start": "bun run backend/server.js",
     "dev": "bun --watch run backend/server.js",
-    "build": "cd frontend && bun run build",
     "build:full": "bun install && cd frontend && bun install && bun run build",
     "frontend:dev": "cd frontend && bun run dev",
     "frontend:build": "cd frontend && bun run build",
