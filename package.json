@@ -1,10 +1,15 @@
 {
-  "name": "backend",
+  "name": "goals-app",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "start": "bun run backend/server.js",
-    "dev": "bun --watch run backend/server.js"
+    "dev": "bun --watch run backend/server.js",
+    "build": "cd frontend && bun run build",
+    "build:full": "bun install && cd frontend && bun install && bun run build",
+    "frontend:dev": "cd frontend && bun run dev",
+    "frontend:build": "cd frontend && bun run build",
+    "frontend:preview": "cd frontend && bun run preview"
   },
   "dependencies": {
     "hono": "^4.6.4",
@@ -15,5 +20,8 @@
   },
   "devDependencies": {
     "@types/node": "^22.7.4"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
   }
 }

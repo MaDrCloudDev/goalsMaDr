@@ -55,7 +55,7 @@ function Register() {
 						/>
 						<button
 							type='submit'
-							className='btn-blue'>
+							className='btn-primary'>
 							Register
 						</button>
 					</form>
@@ -63,7 +63,7 @@ function Register() {
 						Already have an account?{' '}
 						<a
 							href='/login'
-							className='link-blue'>
+							className='link-secondary'>
 							Login
 						</a>
 					</p>

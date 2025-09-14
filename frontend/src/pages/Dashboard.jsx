@@ -41,8 +41,8 @@ function Dashboard() {
 	return (
 		<div>
 			<Header />
-			<div className='container'>
-				<h1>Dashboard</h1>
+			<div className='container text-center'>
+				<h1 className='underline decoration-secondary'>Dashboard</h1>
 				<GoalForm onGoalAdded={handleGoalAdded} />
 				<ul>
 					{goals.map((goal) => (

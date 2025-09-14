@@ -1,10 +1,9 @@
 import { Goal } from '../models/goalModel.js';
 import { User } from '../models/userModel.js';
 
-// GET get goals /api/goals private
 const getGoals = async (c) => {
 	try {
-		const user = c.get('user'); // Assuming user is set by protect middleware
+		const user = c.get('user');
 		const goals = await Goal.find({ user: user.id });
 		return c.json(goals, 200);
 	} catch (error) {
@@ -12,7 +11,6 @@ const getGoals = async (c) => {
 	}
 };
 
-// POST set goals /api/goals private
 const setGoal = async (c) => {
 	try {
 		const user = c.get('user');
@@ -30,7 +28,6 @@ const setGoal = async (c) => {
 	}
 };
 
-// PUT update goals /api/goals/:id private
 const updateGoal = async (c) => {
 	try {
 		const user = c.get('user');
@@ -57,7 +54,6 @@ const updateGoal = async (c) => {
 	}
 };
 
-// DELETE delete goals /api/goals/:id private
 const deleteGoal = async (c) => {
 	try {
 		const user = c.get('user');

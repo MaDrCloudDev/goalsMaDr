@@ -30,7 +30,7 @@ function Header() {
 	const handleLogout = () => {
 		localStorage.removeItem('token');
 		setUser(null);
-		navigate('/login'); // Redirect to login page
+		navigate('/login');
 	};
 
 	return (
@@ -39,7 +39,7 @@ function Header() {
 				<div className='logo'>
 					<Link
 						to='/'
-						className='text-2xl font-bold text-blue-400'>
+						className='text-2xl font-bold text-secondary'>
 						goalsMaDr
 					</Link>
 				</div>
@@ -49,7 +49,7 @@ function Header() {
 							<li>
 								<button
 									onClick={handleLogout}
-									className='btn-blue flex items-center gap-2'>
+									className='btn-dark flex items-center gap-2'>
 									<FaSignOutAlt />
 									Logout
 								</button>

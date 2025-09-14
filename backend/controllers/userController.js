@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { User } from '../models/userModel.js';
 
-// POST add user /api/users public
 const registerUser = async (c) => {
 	try {
 		const { name, email, password } = await c.req.json();
@@ -37,7 +36,6 @@ const registerUser = async (c) => {
 	}
 };
 
-// POST authenticate user /api/users/login public
 const loginUser = async (c) => {
 	try {
 		const { email, password } = await c.req.json();
@@ -59,7 +57,6 @@ const loginUser = async (c) => {
 	}
 };
 
-// GET get user data /api/users/me private
 const getMe = async (c) => {
 	try {
 		const user = c.get('user');
@@ -69,7 +66,6 @@ const getMe = async (c) => {
 	}
 };
 
-// generate JWT
 const generateToken = (id) => {
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
 		expiresIn: '30d',

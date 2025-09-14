@@ -47,7 +47,7 @@ function Login() {
 						/>
 						<button
 							type='submit'
-							className='btn-blue'>
+							className='btn-primary'>
 							Login
 						</button>
 					</form>
@@ -55,7 +55,7 @@ function Login() {
 						Don't have an account?{' '}
 						<a
 							href='/register'
-							className='link-blue'>
+							className='link-secondary'>
 							Register
 						</a>
 					</p>

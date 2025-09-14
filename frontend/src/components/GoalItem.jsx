@@ -16,16 +16,16 @@ function GoalItem({ goal, onGoalDeleted }) {
 	};
 
 	return (
-		<li className='flex justify-between items-center'>
+		<li className='goal-item flex justify-between items-center'>
 			<div>
 				<span className='text-sm text-gray-400'>
 					{new Date(goal.createdAt).toLocaleString('en-US')}
 				</span>
-				<h2 className='text-lg font-medium'>{goal.text}</h2>
+				<h2 className='text-lg font-medium text-light'>{goal.text}</h2>
 			</div>
 			<button
 				onClick={handleDelete}
-				className='btn-red text-sm'
+				className='btn-danger text-sm'
 				aria-label={`Delete goal: ${goal.text}`}>
 				✕
 			</button>

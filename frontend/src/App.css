@@ -4,9 +4,16 @@
 
 @reference 'tailwindcss/utilities';
 
+@theme {
+	--color-primary: #328eef;
+	--color-secondary: #fffb00;
+	--color-dark: #000000;
+	--color-light: #ffffff;
+}
+
 @layer base {
 	body {
-		@apply bg-gray-900 text-gray-100 min-h-screen overflow-x-hidden;
+		@apply bg-dark text-light min-h-screen overflow-x-hidden;
 	}
 
 	.container {
@@ -14,38 +21,82 @@
 	}
 
 	h1 {
-		@apply text-3xl font-bold text-blue-400 mb-6;
+		@apply text-3xl font-bold text-primary mb-6;
+	}
+
+	h2 {
+		@apply text-xl font-semibold text-secondary mb-4;
 	}
 
 	input {
-		@apply w-full p-3 rounded-lg border border-gray-700 bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition;
+		@apply w-full p-3 rounded-lg border border-gray-600 bg-dark text-light focus:outline-none focus:ring-2 focus:ring-secondary transition;
 	}
 
 	button {
 		@apply px-4 py-2 rounded-lg font-semibold transition;
 	}
 
-	.btn-blue {
-		@apply bg-blue-500 text-white hover:bg-blue-600;
+	.btn-primary {
+		@apply bg-primary text-light hover:bg-primary/90;
 	}
 
-	.btn-red {
-		@apply bg-red-500 text-white hover:bg-red-600;
+	.btn-secondary {
+		@apply bg-secondary text-dark hover:bg-secondary/90;
 	}
 
-	.link-blue {
-		@apply text-blue-500 hover:underline;
+	.btn-danger {
+		@apply bg-red-600 text-light hover:bg-red-700;
+	}
+
+	.link-primary {
+		@apply text-primary hover:underline;
+	}
+
+	.link-secondary {
+		@apply text-secondary hover:underline hover:text-secondary/90;
 	}
 
 	.error-text {
-		@apply text-red-500 font-medium;
+		@apply text-red-400 font-medium;
+	}
+
+	.success-text {
+		@apply text-secondary font-medium;
+	}
+
+	.highlight-text {
+		@apply text-secondary font-semibold;
 	}
 
 	.loadingSpinnerContainer {
-		@apply flex items-center justify-center min-h-screen;
+		@apply flex items-center justify-center min-h-screen bg-dark;
 	}
 
 	.loadingSpinner {
-		@apply w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin;
+		@apply w-12 h-12 border-4 border-secondary border-t-transparent rounded-full animate-spin;
+	}
+
+	.card {
+		@apply bg-dark border border-secondary/20 rounded-lg p-4 shadow-lg;
+	}
+
+	.form-container {
+		@apply bg-dark border border-secondary/30 rounded-lg p-6 shadow-xl;
+	}
+
+	.nav-link {
+		@apply text-light hover:text-secondary transition-colors;
+	}
+
+	.nav-link.active {
+		@apply text-secondary;
+	}
+
+	.goal-item {
+		@apply border-l-4 border-secondary pl-4 mb-4 py-2 shadow-[2px_2px_8px_rgba(0,0,0,0.3)] shadow-light/20 px-4;
+	}
+
+	.accent-border {
+		@apply border-secondary;
 	}
 }

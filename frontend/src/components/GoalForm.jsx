@@ -27,7 +27,7 @@ function GoalForm({ onGoalAdded }) {
 	};
 
 	return (
-		<section className='mb-6'>
+		<section className='mb-6 max-w-4xl mx-auto'>
 			<form
 				onSubmit={handleSubmit}
 				className='flex flex-col gap-4'>
@@ -56,7 +56,7 @@ function GoalForm({ onGoalAdded }) {
 				</div>
 				<button
 					type='submit'
-					className='btn-blue'>
+					className='btn-primary'>
 					Add Goal
 				</button>
 			</form>
