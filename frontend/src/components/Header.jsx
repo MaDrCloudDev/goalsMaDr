@@ -34,8 +34,8 @@ function Header() {
 	};
 
 	return (
-		<header className='bg-gray-800 py-4 px-6 shadow-lg'>
-			<div className='container flex justify-between items-center'>
+		<header className='py-4 px-6 w-4xl mx-auto'>
+			<div className='flex justify-between items-center'>
 				<div className='logo'>
 					<Link
 						to='/'
@@ -59,7 +59,7 @@ function Header() {
 								<li>
 									<Link
 										to='/login'
-										className='link-blue flex items-center gap-2'>
+										className='flex items-center gap-2'>
 										<FaSignInAlt />
 										Login
 									</Link>
@@ -67,7 +67,7 @@ function Header() {
 								<li>
 									<Link
 										to='/register'
-										className='link-blue flex items-center gap-2'>
+										className='flex items-center gap-2'>
 										<FaSignInAlt />
 										Register
 									</Link>

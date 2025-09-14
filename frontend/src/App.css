@@ -6,7 +6,7 @@
 
 @layer base {
 	body {
-		@apply bg-gray-900 text-gray-100 min-h-screen;
+		@apply bg-gray-900 text-gray-100 min-h-screen overflow-x-hidden;
 	}
 
 	.container {
@@ -35,14 +35,6 @@
 
 	.link-blue {
 		@apply text-blue-500 hover:underline;
-	}
-
-	ul {
-		@apply space-y-2;
-	}
-
-	li {
-		@apply flex justify-between items-center p-3 bg-gray-800 rounded-lg;
 	}
 
 	.error-text {

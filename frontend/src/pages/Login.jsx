@@ -26,38 +26,40 @@ function Login() {
 	return (
 		<div>
 			<Header />
-			<div className='container'>
-				<h1>Login</h1>
-				{error && <p className='error-text'>{error}</p>}
-				<form
-					onSubmit={handleSubmit}
-					className='flex flex-col gap-4 max-w-sm'>
-					<input
-						type='email'
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						placeholder='Email'
-					/>
-					<input
-						type='password'
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						placeholder='Password'
-					/>
-					<button
-						type='submit'
-						className='btn-blue'>
-						Login
-					</button>
-				</form>
-				<p className='mt-4'>
-					Don't have an account?{' '}
-					<a
-						href='/register'
-						className='link-blue'>
-						Register
-					</a>
-				</p>
+			<div className='container flex justify-center items-center min-h-[calc(100vh-80px)]'>
+				<div className='w-full max-w-sm'>
+					<h1>Login</h1>
+					{error && <p className='error-text'>{error}</p>}
+					<form
+						onSubmit={handleSubmit}
+						className='flex flex-col gap-4'>
+						<input
+							type='email'
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							placeholder='Email'
+						/>
+						<input
+							type='password'
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							placeholder='Password'
+						/>
+						<button
+							type='submit'
+							className='btn-blue'>
+							Login
+						</button>
+					</form>
+					<p className='mt-4'>
+						Don't have an account?{' '}
+						<a
+							href='/register'
+							className='link-blue'>
+							Register
+						</a>
+					</p>
+				</div>
 			</div>
 		</div>
 	);
