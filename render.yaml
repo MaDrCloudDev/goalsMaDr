@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: goalsmadr
+    env: bun
+    plan: free
+    buildCommand: |
+      bun install
+      cd frontend && bun install && bun run build
+    startCommand: bun run start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        value: https://goalsmadr.onrender.com
