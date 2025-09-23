@@ -14,27 +14,23 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = new Hono();
 
-// Connect DB
 await connectDB();
 
-// 🔒 Security middleware only in production
 if (process.env.NODE_ENV === 'production') {
 	app.use('*', securityHeaders);
 	app.use('/api/*', rateLimit(100, 15 * 60 * 1000));
 }
 
-// 🌍 CORS setup
 app.use(
 	'*',
 	cors({
 		origin:
 			process.env.NODE_ENV === 'production'
 				? process.env.FRONTEND_URL
-				: 'http://localhost:3000',
+				: 'http://localhost:5173',
 	})
 );
 
-// 📝 Request logging
 app.use('*', async (c, next) => {
 	const start = Date.now();
 	await next();
@@ -42,7 +38,6 @@ app.use('*', async (c, next) => {
 	logger.info(`${c.req.method} ${c.req.url} - ${c.res.status} (${duration}ms)`);
 });
 
-// ✅ Health check
 app.get('/api/health', (c) => {
 	return c.json({
 		status: 'OK',
@@ -51,20 +46,17 @@ app.get('/api/health', (c) => {
 	});
 });
 
-// 🛠 API routes
 app.route('/api/goals', goalRoutes);
 app.route('/api/users', userRoutes);
 
-// 📦 Serve frontend (static files from dist)
 app.use(
 	'/*',
 	serveStatic({
 		root: join(__dirname, '../frontend/dist'),
-		rewriteRequestPath: (path) => path, // keep same path
+		rewriteRequestPath: (path) => path,
 	})
 );
 
-// 🎯 Catch-all: send index.html for client-side routing
 app.get(
 	'*',
 	serveStatic({
@@ -72,10 +64,10 @@ app.get(
 	})
 );
 
-// ⚠️ Error handling
 app.onError(errorHandler);
 
 export default {
 	port: process.env.PORT || 5000,
 	fetch: app.fetch,
 };
+

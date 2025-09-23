@@ -11,6 +11,19 @@ const goalSchema = mongoose.Schema(
 			type: String,
 			required: [true, 'please add text'],
 		},
+		note: {
+			type: String,
+			maxlength: 1000,
+			default: '',
+		},
+		completed: {
+			type: Boolean,
+			default: false,
+		},
+		completedAt: {
+			type: Date,
+			default: null,
+		},
 	},
 	{
 		timestamps: true,

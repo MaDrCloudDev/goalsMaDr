@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import axios from 'axios';
 
 function Header() {
@@ -34,7 +33,7 @@ function Header() {
 	};
 
 	return (
-		<header className='py-4 px-6 w-4xl mx-auto'>
+		<header className='py-4 px-6 max-w-4xl mx-auto'>
 			<div className='flex justify-between items-center'>
 				<div className='logo'>
 					<Link
@@ -49,9 +48,8 @@ function Header() {
 							<li>
 								<button
 									onClick={handleLogout}
-									className='btn-dark flex items-center gap-2'>
-									<FaSignOutAlt />
-									Logout
+									className='btn-secondary flex items-center gap-2'>
+									Sign out
 								</button>
 							</li>
 						) : (
@@ -59,17 +57,15 @@ function Header() {
 								<li>
 									<Link
 										to='/login'
-										className='flex items-center gap-2'>
-										<FaSignInAlt />
-										Login
+										className='nav-link flex items-center gap-2'>
+										Sign in
 									</Link>
 								</li>
 								<li>
 									<Link
 										to='/register'
-										className='flex items-center gap-2'>
-										<FaSignInAlt />
-										Register
+										className='nav-link flex items-center gap-2'>
+										Sign up
 									</Link>
 								</li>
 							</>
@@ -82,3 +78,4 @@ function Header() {
 }
 
 export default Header;
+

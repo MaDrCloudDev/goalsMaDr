@@ -1,113 +1,90 @@
-# goalsMaDr - Bun/Hono Edition
+# goalsMaDr
 
-A modern full-stack "goals" tracking application built with Bun, Hono, React, and MongoDB.
+Full‑stack goals tracker built with Bun + Hono (API), MongoDB (Mongoose), and React + Vite (frontend).
 
-## 🚀 Tech Stack
+## Stack
+- Backend: Bun, Hono, Mongoose, JWT
+- Frontend: React 18, Vite, Tailwind CSS v4, React Router
+- Database: MongoDB
 
-### Backend
-- **Runtime**: Bun
-- **Framework**: Hono
-- **Database**: MongoDB with Mongoose
-- **Authentication**: JWT with bcryptjs
-- **Architecture**: MVC pattern
+## Prerequisites
+- Bun >= 1.0
+- MongoDB running locally or a connection string
 
-### Frontend
-- **Framework**: React 18
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS v4
-- **Routing**: React Router v6
-
-## 📦 Installation
-
-1. Clone the repository
+## Setup
 ```bash
-git clone <your-repo-url>
-cd goalsMaDr
-```
-
-2. Install dependencies
-```bash
+# install root deps
 bun install
+
+# install frontend deps
 cd frontend && bun install
 ```
 
-3. Set up environment variables
+Copy env file and fill in values:
 ```bash
 cp .env.example .env
-# Edit .env with your MongoDB URI and JWT secret
 ```
 
-4. Start MongoDB (make sure it's running on your system)
+Required variables:
+- MONGO_URI
+- JWT_SECRET
+- NODE_ENV (development|production)
+- FRONTEND_URL (used in production for CORS)
+- PORT (default 5000)
 
-## 🏃‍♂️ Running the Application
-
-### Development Mode
+## Development
+Run backend and frontend in separate terminals.
 ```bash
-# Start backend (from root directory)
+# terminal 1 (root)
 bun run dev
 
-# Start frontend (in another terminal)
+# terminal 2 (frontend)
 cd frontend
-bun run dev
+bun run dev   # Vite on http://localhost:5173
 ```
 
-### Production Build
+## Production
+Build the frontend and start the API server. The API serves the built frontend from `frontend/dist`.
 ```bash
-# Build frontend
-cd frontend
-bun run build
+# build frontend
+cd frontend && bun run build
 
-# Start production server
+# start api (from repo root)
 cd ..
 bun run start
 ```
 
-## 📁 Project Structure
-
+## Project structure
 ```
 goalsMaDr/
 ├── backend/
-│   ├── config/          # Database configuration
-│   ├── controllers/     # Route handlers
-│   ├── middleware/      # Custom middleware
-│   ├── models/          # Mongoose schemas
-│   ├── routes/          # API routes
-│   └── server.js        # Main server file
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   └── server.js
 ├── frontend/
 │   ├── src/
-│   │   ├── components/  # React components
-│   │   ├── pages/       # Page components
-│   │   └── App.jsx      # Main app component
-│   └── dist/            # Built frontend files
-└── package.json         # Root package.json
+│   ├── index.html
+│   └── vite.config.js
+└── package.json
 ```
 
-## 🔧 API Endpoints
+## API
+Base URL: `/api`
 
-### Authentication
-- `POST /api/users` - Register user
-- `POST /api/users/login` - Login user
-- `GET /api/users/me` - Get current user (protected)
+Auth
+- POST `/api/users` — register
+- POST `/api/users/login` — login
+- GET `/api/users/me` — current user (Bearer token)
 
-### Goals
-- `GET /api/goals` - Get user goals (protected)
-- `POST /api/goals` - Create goal (protected)
-- `PUT /api/goals/:id` - Update goal (protected)
-- `DELETE /api/goals/:id` - Delete goal (protected)
+Goals (Bearer token)
+- GET `/api/goals` — list goals
+- POST `/api/goals` — create goal `{ text }`
+- PUT `/api/goals/:id` — update goal
+- DELETE `/api/goals/:id` — delete goal
 
-## 🛠️ Development Features
-
-- Hot reload with `--watch` flag
-- Input validation middleware
-- Comprehensive error handling
-- CORS configuration for development
-- Static file serving for SPA
-- JWT authentication middleware
-
-## 🚀 Deployment
-
-The app is configured to serve the React build files statically from the Hono server, making it suitable for single-server deployment.
-
-## 📝 Environment Variables
-
-See `.env.example` for required environment variables.
+## Notes
+- In development CORS allows `http://localhost:5173`.
+- In production set `FRONTEND_URL` for CORS.

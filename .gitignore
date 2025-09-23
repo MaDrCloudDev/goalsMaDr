@@ -1,2 +1,23 @@
 node_modules/
 .env
+
+# Build output
+frontend/dist/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Bun lock binary (if present)
+bun.lockb
+
+# Coverage
+coverage/
+
