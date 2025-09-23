@@ -21,3 +21,4 @@ bun.lockb
 # Coverage
 coverage/
 
+.vercel
