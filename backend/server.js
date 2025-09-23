@@ -57,12 +57,19 @@ app.use(
 	})
 );
 
-app.get(
-	'*',
-	serveStatic({
-		path: join(__dirname, '../frontend/dist/index.html'),
-	})
-);
+// SPA fallback: only for non-API, extension-less routes
+app.get('*', async (c, next) => {
+  const pathname = new URL(c.req.url).pathname;
+  // If request is for API or looks like a static asset (has a dot), skip SPA fallback
+  if (pathname.startsWith('/api') || pathname.includes('.')) {
+    return next();
+  }
+  return (
+    await serveStatic({
+      path: join(__dirname, '../frontend/dist/index.html'),
+    })
+  )(c, next);
+});
 
 app.onError(errorHandler);
 
